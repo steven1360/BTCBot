@@ -11,8 +11,8 @@ class Prompt:
     @classmethod
     def InitPromptList(cls):
         first_prompt = "How many BTC are you trying to flip?"
-        second_prompt = "How much USD were these BTC worth when you bought them?"
-        third_prompt = "How much USD did you spend in fees when buying these BTC?"
+        second_prompt = "What was the USD price per 1 BTC when you bought them?"
+        third_prompt = "How much USD did you spend on fees when buying these BTC?"
         fourth_prompt = "How much USD are you trying to make?"
 
         cls.prompt_list.append(first_prompt)
@@ -27,7 +27,7 @@ class Prompt:
         return Prompt.prompt_list[self.current_prompt]
 
     def CollectResponse(self, response):
-        
+
         try:
             response = float(response)
             self.prompt_responses[self.current_prompt] = response
@@ -40,3 +40,5 @@ class Prompt:
             if response == -1:
                 return False
         return True
+
+        

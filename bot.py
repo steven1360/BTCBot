@@ -1,5 +1,9 @@
 from discord.ext import commands
 from profile import Profile
+from btc import BTC
+import asyncio
+
+TOKEN = 'NzkzMzEwOTExMjY3NDcxNDAw.X-qaXA.ZEWRXzoBc59KuSqJ22dSMt-gLoc'
 
 class BTCBot(commands.Bot):
 
@@ -11,6 +15,30 @@ class BTCBot(commands.Bot):
     
     async def on_ready(self):
         print("Ready!")
+
+    async def ScanProfiles(self):
+        BTC.UpdatePrice()
+        while True:
+
+            up_for_deletion = []
+
+            for user, profile in BTCBot.profiles.items():
+
+                if profile.complete and profile.IsReadyToSell():
+                    await profile.user.send(user.mention)
+                    message = "```Right now is a good time to sell your BTC.\n"
+                    message += "The current price of BTC is {} USD per 1 BTC.\n".format(BTC.usd_price)
+                    message += "You bought your BTC when it was {} USD per 1 BTC.\n".format(profile.initial_btc_worth)
+                    message += "Your profit would be {} USD if you sell now!```".format(profile.current_profit)
+                    await profile.user.send(message)
+                    up_for_deletion.append(user)
+
+            for user in up_for_deletion:
+                del BTCBot.profiles[user]
+            
+            await asyncio.sleep(10)
+            BTC.UpdatePrice()
+
     
     async def on_message(self, message):
 
@@ -27,6 +55,7 @@ class BTCBot(commands.Bot):
 
                     if prompt.AllResponsesCompleted():
                         BTCBot.profiles[user].complete = True
+                        BTCBot.profiles[user].ImportPromptResponses()
                         await user.send("Registered all responses. I will ping you whenever it's a good time to sell your BTC.")
                     else:
                         next_prompt = prompt.GetNextPrompt()
@@ -62,7 +91,8 @@ class BTCBot(commands.Bot):
             else:
                 await user.send("I have already recorded your responses. To cancel, use the !cancel command.")
 
-    
+
 bot = BTCBot(command_prefix="!")
-bot.run('NzkzMzEwOTExMjY3NDcxNDAw.X-qaXA.ZEWRXzoBc59KuSqJ22dSMt-gLoc')
+bot.loop.create_task(bot.ScanProfiles())
+bot.run(TOKEN)
 

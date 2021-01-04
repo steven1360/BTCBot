@@ -17,6 +17,7 @@ class BTC:
         else:
             print("There was a problem updating the price")
 
-print(BTC.usd_price)
-BTC.UpdatePrice()
-print(BTC.usd_price)
+if __name__ == "__main__":
+    print(BTC.usd_price)
+    BTC.UpdatePrice()
+    print(BTC.usd_price)
