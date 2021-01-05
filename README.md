@@ -16,8 +16,24 @@ Commands are aceepted only in DM chat with the bot
 * `!start` - Starts a new profile. The bot will ask the set of questions above.
 * `!cancel` - Maybe you already have a profile but got your numbers wrong. In that case, use this command to cancel.
 
+# Installation
+1. Make sure you have [Python 3.7](https://www.python.org/downloads/release/python-370/) installed on your computer
+1. Open up your terminal
+2. Enter the following commands:
+```
+git clone https://github.com/steven1360/BTCBot.git
+cd BTCBot
+python -m venv .venv
+cd .venv/Scripts
+Activate
+```
+3. Go back to the BTCBot directory and run the following command: `pip install -r requirements.txt `
+4. Edit the bot.py with a text editor and assign `TOKEN` with your own token given by discord
+5. Run the following command: `python bot.py`
+
 # Example
 
 After opening a DM to the bot, I enter the `!start` command (not shown in image). The bot responds by going directly to the questions, asking them one by one. At `1:29 AM`, I received confirmation that the bot has recorded my responses and will tell me when it's a good time to sell. `14` minutes later, while I am busy working on something else, discord pings me at `1:43 AM` saying that I should sell my bitcoins now. So, I open up some mobile app on my phone and sell my bitcoins immediately to make a quick profit. Then I'll start another profile to make another quick profit. This is how I am using the bot.
 
 ![BTCBot Example](/images/btcbot.JPG)
+
