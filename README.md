@@ -1,2 +1,2 @@
-# CryptoTrader
-A discord bot for flipping cryptocurrency
+# BTCBot
+A discord bot for flipping bitcoin
