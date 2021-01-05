@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import ChannelType
 from profile import Profile
 from btc import BTC
 import asyncio
@@ -42,6 +43,10 @@ class BTCBot(commands.Bot):
     
     async def on_message(self, message):
 
+        if message.channel.type != ChannelType.private:
+            await bot.process_commands(message)
+            return
+
         user = self.get_user(message.author.id) 
         
         if user in BTCBot.profiles.keys():
@@ -65,12 +70,17 @@ class BTCBot(commands.Bot):
 
         
         await bot.process_commands(message)
+
     
     def InitCommands(self):
-
+        
         @self.command()
         async def start(ctx):
             
+            if ctx.message.channel.type != ChannelType.private:
+                await ctx.send("DM your commands directly to the bot.")
+                return
+
             user = self.get_user(ctx.message.author.id) 
 
             if user not in BTCBot.profiles.keys():
@@ -83,6 +93,11 @@ class BTCBot(commands.Bot):
 
         @self.command()
         async def cancel(ctx):
+
+            if ctx.message.channel.type != ChannelType.private:
+                await ctx.send("DM your commands directly to the bot.")
+                return
+
             user = self.get_user(ctx.message.author.id) 
 
             if user in BTCBot.profiles.keys():
